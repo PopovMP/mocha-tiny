@@ -88,6 +88,8 @@ describe('Test group', () => {
 });
 ```
 
+**mocha-tiny** throws an error if tehre are failed tests.
+
 ## Run all tests
 
 **mocha-tiny** exports a `mocha-tiny` command. It finds and runs all tests in the `./test` folder.
