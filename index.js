@@ -94,6 +94,10 @@ function showStats() {
     } else {
         log(message);
     }
+
+    if (failed) {
+        throw new Error("Tests failed: " + failed);
+    }
 }
 
 /**
