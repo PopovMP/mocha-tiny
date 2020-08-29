@@ -139,9 +139,9 @@ function describe(message, func) { }
  * Runs a function with assert
  *
  * @param { string   } message - test description
- * @param { function } test    - test function
+ * @param { function } func    - contains an assertion
  */
-function it(message, test) { }
+function it(message, func) { }
 ```
 
 ## License

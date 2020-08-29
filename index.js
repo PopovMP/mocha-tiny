@@ -58,9 +58,9 @@ function describe(message, func) {
  * @type { function } It
  *
  * @param { string   } message - test description
- * @param { function } test - test function
+ * @param { function } func    - contains an assertion
  */
-function it(message, test) {
+function it(message, func) {
     stats.index++;
 
     if (stats.level === 0) {
@@ -68,7 +68,7 @@ function it(message, test) {
     }
 
     try {
-        test();
+        func();
 
         log(stats.index + ". ✅ " + message);
         stats.passed++;
