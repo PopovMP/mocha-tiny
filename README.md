@@ -44,6 +44,18 @@ Test math
 Passed: 3 of 3, Failed: 0
 ```
 
+On a failed test:
+
+```text
+        3. ❌ sums numbers
+        Expected values to be strictly equal:
+
+5 !== 6
+
+        Actual: 5, Expected: 6
+Passed: 2 of 3, Failed: 1
+```
+
 ## Installation
 
 ```
@@ -88,7 +100,7 @@ describe('Test group', () => {
 });
 ```
 
-**mocha-tiny** throws an error if tehre are failed tests.
+**mocha-tiny** throws an error if there are failed tests.
 
 ## Run all tests
 
