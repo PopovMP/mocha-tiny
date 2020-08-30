@@ -1,6 +1,6 @@
 {
   "name": "@popovmp/mocha-tiny",
-  "version": "1.2.1",
+  "version": "1.3.0",
   "description": "Mocha-tiny - straightforward unit testing: `describe` and `it`",
   "main": "index.js",
   "author": "PopovMP <info@forexsb.com>",
