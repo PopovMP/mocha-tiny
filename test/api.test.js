@@ -5,7 +5,7 @@ const {describe, it} = require('../index');
 
 describe('Mocha-tiny API:', function () {
 
-    describe('describe', function () {
+    describe('describe(message, content)', function () {
 
         it('is a function', function () {
             strictEqual(typeof describe, 'function');
@@ -16,7 +16,7 @@ describe('Mocha-tiny API:', function () {
         });
     });
 
-    describe('it', function () {
+    describe('it(message, assertion)', function () {
 
         it('is a function', function () {
             strictEqual(typeof it, 'function');
