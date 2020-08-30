@@ -97,13 +97,17 @@ function it(message, func) {
         throw new Error('Error: "it" called out of "describe"');
     }
 
+    const indexText = stats.index > 9
+        ? ''  + stats.index
+        : ' ' + stats.index;
+
     try {
         func();
 
-        logSuccess(stats.index + ". ✅ " + message);
+        logSuccess(indexText + ". ✅ " + message);
         stats.passed++;
     } catch (e) {
-        logError(stats.index + ". ❌ " + message);
+        logError(indexText+ ". ❌ " + message);
         logError(e.message);
         logError("Actual: " + e.actual + ", Expected: " + e.expected);
         stats.failed++;
