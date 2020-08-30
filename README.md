@@ -35,26 +35,11 @@ describe('Test math', () => {
 
 Output:
 
-```text
-Test math
-    sum
-        1. ✅ is a function
-        2. ✅ accepts two args
-        3. ✅ sums numbers
-Passed: 3 of 3, Failed: 0
-```
+![mocha-tiny all passed](https://image-holder.forexsb.com/store/mocha-tiny-console-success.png)
 
 On a failed test:
 
-```text
-        3. ❌ sums numbers
-        Expected values to be strictly equal:
-
-5 !== 6
-
-        Actual: 5, Expected: 6
-Passed: 2 of 3, Failed: 1
-```
+![mocha-tiny failed test](https://image-holder.forexsb.com/store/mocha-tiny-console.png)
 
 ## Installation
 
