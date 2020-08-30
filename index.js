@@ -13,10 +13,11 @@ const colors = {
 /**
  * @typedef { object } TestStats
  *
- * @property { number } level
- * @property { number } count
- * @property { number } passed
- * @property { number } failed
+ * @property { number } level - the depth of the nested "describe"
+ * @property { number } count - total count of the tests
+ * @property { number } passed - count of passed tests
+ * @property { number } failed - count of failed tests
+ * @property { number } start - start time
  */
 
 /** @type { TestStats } */
@@ -33,6 +34,7 @@ function getNewStats() {
         count  : 0,
         passed : 0,
         failed : 0,
+        start  : 0,
     }
 }
 
@@ -47,6 +49,7 @@ function describe(message, content) {
         stats = getNewStats();
         console.log();
         console.log(colors.Bright + message + colors.Reset);
+        stats.start = Date.now();
     }
     else {
         log(colors.FgBlue + message + colors.Reset);
@@ -59,9 +62,12 @@ function describe(message, content) {
     stats.level--;
 
     if (stats.level === 0) {
-        showStats();
-        const failed = stats.failed;
+        const time    = Date.now() - stats.start;
+        const summary = getStatsSummary(time);
+        const failed  = stats.failed;
         stats = getNewStats();
+
+        console.log(summary);
 
         if (failed) {
             throw new Error('Tests failed: ' + failed);
@@ -92,9 +98,11 @@ function it(message, assertion) {
 }
 
 /**
- * Shows a test summary. It resets the stats.
+ * Composes the test summary message
+ *
+ * @param { number } time - the total test time
  */
-function showStats() {
+function getStatsSummary(time) {
     const passedText = stats.passed === stats.count
         ? colors.FgGreen + 'Passed: ' + stats.passed + ' of ' + stats.count + colors.Reset
         : 'Passed: ' + stats.passed + ' of ' + stats.count;
@@ -103,7 +111,7 @@ function showStats() {
         ? colors.FgRed + 'Failed: ' + stats.failed + colors.Reset
         : 'Failed: ' + stats.failed;
 
-    console.log(passedText + ', ' + failedText);
+    return passedText + ', ' + failedText + ' (' + time + ' ms)';
 }
 
 /**
