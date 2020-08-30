@@ -9,7 +9,7 @@ function sum(m, n) {
 
 describe('Test math', () => {
 
-    describe('sum', () => {
+    describe('sum(m, n)', () => {
 
         it('is a function', () => {
            strictEqual(typeof sum, 'function');
