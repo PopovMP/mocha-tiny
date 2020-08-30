@@ -15,7 +15,7 @@ function sum(m, n) {
 }
 
 describe('Test math', () => {
-    describe('sum', () => {
+    describe('sum(m, n)', () => {
         it('is a function', () => {
            strictEqual(typeof sum, 'function');
         });
@@ -33,13 +33,13 @@ describe('Test math', () => {
 });
 ```
 
-Output:
+Output - all passed:
 
 ![mocha-tiny all passed](https://image-holder.forexsb.com/store/mocha-tiny-console-success.png)
 
-On a failed test:
+Output - a failed test:
 
-![mocha-tiny failed test](https://image-holder.forexsb.com/store/mocha-tiny-console.png)
+![mocha-tiny failed test](https://image-holder.forexsb.com/store/mocha-tiny-console-failure.png)
 
 ## Installation
 
