@@ -57,12 +57,10 @@ function getNewStats() {
 /**
  * Runs a group of tests
  *
- * @type { function } Describe
- *
  * @param { string    } message - description of the test group
- * @param { function  } func - contains a `describe` or `it` functions
+ * @param { function  } content - contains a `describe` or `it` functions
  */
-function describe(message, func) {
+function describe(message, content) {
     if (stats.level === 0) {
         console.log();
         log(colors.Bright + message + colors.Reset);
@@ -73,7 +71,7 @@ function describe(message, func) {
 
     stats.level++;
 
-    func();
+    content();
 
     stats.level--;
 
@@ -83,14 +81,12 @@ function describe(message, func) {
 }
 
 /**
- * Runs a function with assert
+ * Runs an assertion function
  *
- * @type { function } It
- *
- * @param { string   } message - test description
- * @param { function } func    - contains an assertion
+ * @param { string   } message   - test description
+ * @param { function } assertion - contains an assertion
  */
-function it(message, func) {
+function it(message, assertion) {
     stats.index++;
 
     if (stats.level === 0) {
@@ -102,12 +98,12 @@ function it(message, func) {
         : ' ' + stats.index;
 
     try {
-        func();
+        assertion();
 
         logSuccess(indexText + ". ✅ " + message);
         stats.passed++;
     } catch (e) {
-        logError(indexText+ ". ❌ " + message);
+        logError(indexText + ". ❌ " + message);
         logError(e.message);
         logError("Actual: " + e.actual + ", Expected: " + e.expected);
         stats.failed++;

@@ -111,22 +111,20 @@ You can set this command in your `package.js`:
 /**
  * Runs a group of tests
  *
- * @type { function } Describe
- *
  * @param { string   } message - description of the test group
- * @param { function } func    - contains a `describe` or `it` functions
+ * @param { function } content - contains a `describe` or `it` functions
  */
-function describe(message, func) { }
+function describe(message, content) { }
 ```
 
 ```javascript
 /**
- * Runs a function with assert
+ * Runs an assertion function
  *
- * @param { string   } message - test description
- * @param { function } func    - contains an assertion
+ * @param { string   } message   - test description
+ * @param { function } assertion - contains an assertion
  */
-function it(message, func) { }
+function it(message, assertion) { }
 ```
 
 ## License
