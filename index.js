@@ -62,8 +62,9 @@ function getNewStats() {
  */
 function describe(message, content) {
     if (stats.level === 0) {
+        stats = getNewStats();
         console.log();
-        log(colors.Bright + message + colors.Reset);
+        console.log(colors.Bright + message + colors.Reset);
     }
     else {
         log(colors.Dim + message + colors.Reset);
@@ -77,6 +78,12 @@ function describe(message, content) {
 
     if (stats.level === 0) {
         showStats();
+        const failed = stats.failed;
+        stats = getNewStats();
+
+        if (failed) {
+            throw new Error("Tests failed: " + failed);
+        }
     }
 }
 
@@ -87,27 +94,36 @@ function describe(message, content) {
  * @param { function } assertion - contains an assertion
  */
 function it(message, assertion) {
-    stats.index++;
-
     if (stats.level === 0) {
         throw new Error('Error: "it" called out of "describe"');
     }
 
-    const indexText = stats.index > 9
-        ? ''  + stats.index
-        : ' ' + stats.index;
+    stats.index++;
 
     try {
         assertion();
 
-        logSuccess(indexText + ". ✅ " + message);
+        logSuccess(testIndex(stats.index) + ". ✅ " + message);
         stats.passed++;
     } catch (e) {
-        logError(indexText + ". ❌ " + message);
+        logError(testIndex(stats.index) + ". ❌ " + message);
         logError(e.message);
         logError("Actual: " + e.actual + ", Expected: " + e.expected);
         stats.failed++;
     }
+}
+
+/**
+ *  Gets a test index number aligned to the right
+ *
+ * @param { number } index
+ *
+ * @return { string }
+ */
+function testIndex(index) {
+    return index > 9
+        ? ''  + index
+        : ' ' + index;
 }
 
 /**
@@ -122,14 +138,7 @@ function showStats() {
         ? colors.FgRed + 'Failed: ' + stats.failed + colors.Reset
         : 'Failed: ' + stats.failed;
 
-    const failed = stats.failed;
-    stats = getNewStats();
-
-    log(passedText + ', ' + failedText);
-
-    if (failed) {
-        throw new Error("Tests failed: " + failed);
-    }
+    console.log(passedText + ', ' + failedText);
 }
 
 /**
