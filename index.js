@@ -4,35 +4,17 @@ const colors = {
     Reset     : '\x1b[0m',
     Bright    : '\x1b[1m',
     Dim       : '\x1b[2m',
-    Underscore: '\x1b[4m',
-    Blink     : '\x1b[5m',
-    Reverse   : '\x1b[7m',
-    Hidden    : '\x1b[8m',
 
-    FgBlack   : '\x1b[30m',
     FgRed     : '\x1b[31m',
     FgGreen   : '\x1b[32m',
-    FgYellow  : '\x1b[33m',
     FgBlue    : '\x1b[34m',
-    FgMagenta : '\x1b[35m',
-    FgCyan    : '\x1b[36m',
-    FgWhite   : '\x1b[37m',
-
-    BgBlack   : '\x1b[40m',
-    BgRed     : '\x1b[41m',
-    BgGreen   : '\x1b[42m',
-    BgYellow  : '\x1b[43m',
-    BgBlue    : '\x1b[44m',
-    BgMagenta : '\x1b[45m',
-    BgCyan    : '\x1b[46m',
-    BgWhite   : '\x1b[47m',
 }
 
 /**
  * @typedef { object } TestStats
  *
  * @property { number } level
- * @property { number } index
+ * @property { number } count
  * @property { number } passed
  * @property { number } failed
  */
@@ -48,7 +30,7 @@ let stats = getNewStats();
 function getNewStats() {
     return {
         level  : 0,
-        index  : 0,
+        count  : 0,
         passed : 0,
         failed : 0,
     }
@@ -67,7 +49,7 @@ function describe(message, content) {
         console.log(colors.Bright + message + colors.Reset);
     }
     else {
-        log(colors.Dim + message + colors.Reset);
+        log(colors.FgBlue + message + colors.Reset);
     }
 
     stats.level++;
@@ -82,7 +64,7 @@ function describe(message, content) {
         stats = getNewStats();
 
         if (failed) {
-            throw new Error("Tests failed: " + failed);
+            throw new Error('Tests failed: ' + failed);
         }
     }
 }
@@ -94,45 +76,28 @@ function describe(message, content) {
  * @param { function } assertion - contains an assertion
  */
 function it(message, assertion) {
-    if (stats.level === 0) {
-        throw new Error('Error: "it" called out of "describe"');
-    }
-
-    stats.index++;
+    stats.count++;
 
     try {
         assertion();
 
-        logSuccess(testIndex(stats.index) + ". ✅ " + message);
+        logSuccess('✅ ' + message);
         stats.passed++;
     } catch (e) {
-        logError(testIndex(stats.index) + ". ❌ " + message);
+        logError('❌ ' + message);
         logError(e.message);
-        logError("Actual: " + e.actual + ", Expected: " + e.expected);
+        logError('Actual: ' + e.actual + ', Expected: ' + e.expected);
         stats.failed++;
     }
-}
-
-/**
- *  Gets a test index number aligned to the right
- *
- * @param { number } index
- *
- * @return { string }
- */
-function testIndex(index) {
-    return index > 9
-        ? ''  + index
-        : ' ' + index;
 }
 
 /**
  * Shows a test summary. It resets the stats.
  */
 function showStats() {
-    const passedText = stats.passed === stats.index
-        ? colors.FgGreen + 'Passed: ' + stats.passed + ' of ' + stats.index + colors.Reset
-        : 'Passed: ' + stats.passed + ' of ' + stats.index;
+    const passedText = stats.passed === stats.count
+        ? colors.FgGreen + 'Passed: ' + stats.passed + ' of ' + stats.count + colors.Reset
+        : 'Passed: ' + stats.passed + ' of ' + stats.count;
 
     const failedText = stats.failed
         ? colors.FgRed + 'Failed: ' + stats.failed + colors.Reset
