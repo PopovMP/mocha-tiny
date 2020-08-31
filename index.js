@@ -91,8 +91,9 @@ function it(message, assertion) {
         stats.passed++;
     } catch (e) {
         logError('❌ ' + message);
-        logError(e.message);
-        logError('Actual: ' + e.actual + ', Expected: ' + e.expected);
+        log(e.message);
+        log('Actual: ' + colors.FgRed + e.actual + colors.Reset + ', ' +
+            'Expected: ' + colors.FgGreen + e.expected + colors.Reset);
         stats.failed++;
     }
 }
