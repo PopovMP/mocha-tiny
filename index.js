@@ -1,13 +1,13 @@
-'use strict';
+'use strict'
 
 const colors = {
-    Reset     : '\x1b[0m',
-    Bright    : '\x1b[1m',
-    Dim       : '\x1b[2m',
+	Reset : '\x1b[0m',
+	Bright: '\x1b[1m',
+	Dim   : '\x1b[2m',
 
-    FgRed     : '\x1b[31m',
-    FgGreen   : '\x1b[32m',
-    FgBlue    : '\x1b[34m',
+	FgRed  : '\x1b[31m',
+	FgGreen: '\x1b[32m',
+	FgBlue : '\x1b[34m',
 }
 
 /**
@@ -21,7 +21,7 @@ const colors = {
  */
 
 /** @type { TestStats } */
-let stats = getNewStats();
+let stats = getNewStats()
 
 /**
  * Gets initial TestStats
@@ -29,13 +29,13 @@ let stats = getNewStats();
  * @return { TestStats }
  */
 function getNewStats() {
-    return {
-        level  : 0,
-        count  : 0,
-        passed : 0,
-        failed : 0,
-        start  : 0,
-    }
+	return {
+		level : 0,
+		count : 0,
+		passed: 0,
+		failed: 0,
+		start : 0,
+	}
 }
 
 /**
@@ -45,34 +45,34 @@ function getNewStats() {
  * @param { function  } content - contains a `describe` or `it` functions
  */
 function describe(message, content) {
-    if (stats.level === 0) {
-        stats = getNewStats();
-        console.log();
-        console.log(colors.Bright + message + colors.Reset);
-        stats.start = Date.now();
-    }
-    else {
-        log(colors.FgBlue + message + colors.Reset);
-    }
+	if (stats.level === 0) {
+		stats = getNewStats()
+		console.log()
+		console.log(colors.Bright + message + colors.Reset)
+		stats.start = Date.now()
+	}
+	else {
+		log(colors.FgBlue + message + colors.Reset)
+	}
 
-    stats.level++;
+	stats.level++
 
-    content();
+	content()
 
-    stats.level--;
+	stats.level--
 
-    if (stats.level === 0) {
-        const time    = Date.now() - stats.start;
-        const summary = getStatsSummary(time);
-        const failed  = stats.failed;
-        stats = getNewStats();
+	if (stats.level === 0) {
+		const time    = Date.now() - stats.start
+		const summary = getStatsSummary(time)
+		const failed  = stats.failed
+		stats         = getNewStats()
 
-        console.log(summary);
+		console.log(summary)
 
-        if (failed) {
-            throw new Error('Tests failed: ' + failed);
-        }
-    }
+		if (failed) {
+			throw new Error('Tests failed: ' + failed)
+		}
+	}
 }
 
 /**
@@ -82,20 +82,20 @@ function describe(message, content) {
  * @param { function } assertion - contains an assertion
  */
 function it(message, assertion) {
-    stats.count++;
+	stats.count++
 
-    try {
-        assertion();
+	try {
+		assertion()
 
-        logSuccess('✅ ' + message);
-        stats.passed++;
-    } catch (e) {
-        logError('❌ ' + message);
-        log(e.message);
-        log('Actual: ' + colors.FgRed + e.actual + colors.Reset + ', ' +
-            'Expected: ' + colors.FgGreen + e.expected + colors.Reset);
-        stats.failed++;
-    }
+		logSuccess('✅ ' + message)
+		stats.passed++
+	} catch (e) {
+		logError('❌ ' + message)
+		log(e.message)
+		log('Actual: ' + colors.FgRed + e.actual + colors.Reset + ', ' +
+			'Expected: ' + colors.FgGreen + e.expected + colors.Reset)
+		stats.failed++
+	}
 }
 
 /**
@@ -104,15 +104,15 @@ function it(message, assertion) {
  * @param { number } time - the total test time
  */
 function getStatsSummary(time) {
-    const passedText = stats.passed === stats.count
-        ? colors.FgGreen + 'Passed: ' + stats.passed + ' of ' + stats.count + colors.Reset
-        : 'Passed: ' + stats.passed + ' of ' + stats.count;
+	const passedText = stats.passed === stats.count
+		? colors.FgGreen + 'Passed: ' + stats.passed + ' of ' + stats.count + colors.Reset
+		: 'Passed: ' + stats.passed + ' of ' + stats.count
 
-    const failedText = stats.failed
-        ? colors.FgRed + 'Failed: ' + stats.failed + colors.Reset
-        : 'Failed: ' + stats.failed;
+	const failedText = stats.failed
+		? colors.FgRed + 'Failed: ' + stats.failed + colors.Reset
+		: 'Failed: ' + stats.failed
 
-    return passedText + ', ' + failedText + ' (' + time + ' ms)';
+	return passedText + ', ' + failedText + ' (' + time + ' ms)'
 }
 
 /**
@@ -121,7 +121,7 @@ function getStatsSummary(time) {
  * @param { string } message
  */
 function log(message) {
-    console.log(indentation() + message);
+	console.log(indentation() + message)
 }
 
 /**
@@ -130,7 +130,7 @@ function log(message) {
  * @param { string } message - success message
  */
 function logSuccess(message) {
-    console.log(indentation() + colors.FgGreen + message + colors.Reset);
+	console.log(indentation() + colors.FgGreen + message + colors.Reset)
 }
 
 /**
@@ -139,7 +139,7 @@ function logSuccess(message) {
  * @param { string } message - error message
  */
 function logError(message) {
-    console.log(indentation() + colors.FgRed + message + colors.Reset);
+	console.log(indentation() + colors.FgRed + message + colors.Reset)
 }
 
 /**
@@ -148,12 +148,12 @@ function logError(message) {
  * @return { string }
  */
 function indentation() {
-    return stats.level
-        ? ' '.repeat(4 * stats.level)
-        : '';
+	return stats.level
+		? ' '.repeat(4 * stats.level)
+		: ''
 }
 
 module.exports = {
-    describe,
-    it,
+	describe,
+	it,
 }
