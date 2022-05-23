@@ -1,10 +1,9 @@
 'use strict'
 
 const colors = {
-	Reset : '\x1b[0m',
-	Bright: '\x1b[1m',
-	Dim   : '\x1b[2m',
-
+	Reset  : '\x1b[0m',
+	Bright : '\x1b[1m',
+	Dim    : '\x1b[2m',
 	FgRed  : '\x1b[31m',
 	FgGreen: '\x1b[32m',
 	FgBlue : '\x1b[34m',
@@ -13,11 +12,11 @@ const colors = {
 /**
  * @typedef { object } TestStats
  *
- * @property { number } level - the depth of the nested "describe"
- * @property { number } count - total count of the tests
+ * @property { number } level  - the depth of the nested "describe"
+ * @property { number } count  - total count of the tests
  * @property { number } passed - count of passed tests
  * @property { number } failed - count of failed tests
- * @property { number } start - start time
+ * @property { number } start  - start time
  */
 
 /** @type { TestStats } */
@@ -28,7 +27,8 @@ let stats = getNewStats()
  *
  * @return { TestStats }
  */
-function getNewStats() {
+function getNewStats()
+{
 	return {
 		level : 0,
 		count : 0,
@@ -44,7 +44,8 @@ function getNewStats() {
  * @param { string    } message - description of the test group
  * @param { function  } content - contains a `describe` or `it` functions
  */
-function describe(message, content) {
+function describe(message, content)
+{
 	if (stats.level === 0) {
 		stats = getNewStats()
 		console.log()
@@ -56,23 +57,18 @@ function describe(message, content) {
 	}
 
 	stats.level++
-
 	content()
-
 	stats.level--
 
-	if (stats.level === 0) {
-		const time    = Date.now() - stats.start
-		const summary = getStatsSummary(time)
-		const failed  = stats.failed
-		stats         = getNewStats()
+	if (stats.level > 0)
+		return
 
-		console.log(summary)
+	logStatsSummary()
+	const failed = stats.failed
+	stats = getNewStats()
 
-		if (failed) {
-			throw new Error('Tests failed: ' + failed)
-		}
-	}
+	if (failed)
+		throw new Error('Tests failed: ' + failed)
 }
 
 /**
@@ -81,38 +77,40 @@ function describe(message, content) {
  * @param { string   } message   - test description
  * @param { function } assertion - contains an assertion
  */
-function it(message, assertion) {
+function it(message, assertion)
+{
 	stats.count++
 
 	try {
 		assertion()
-
 		logSuccess('✅ ' + message)
 		stats.passed++
-	} catch (e) {
+	}
+	catch (e) {
 		logError('❌ ' + message)
 		log(e.message)
-		log('Actual: ' + colors.FgRed + e.actual + colors.Reset + ', ' +
-			'Expected: ' + colors.FgGreen + e.expected + colors.Reset)
+		log(`Actual: ${colors.FgRed + e.actual + colors.Reset}, ` +
+			`Expected: ${colors.FgGreen + e.expected + colors.Reset}`)
 		stats.failed++
 	}
 }
 
 /**
- * Composes the test summary message
- *
- * @param { number } time - the total test time
+ * Logs the test summary message
  */
-function getStatsSummary(time) {
+function logStatsSummary()
+{
 	const passedText = stats.passed === stats.count
-		? colors.FgGreen + 'Passed: ' + stats.passed + ' of ' + stats.count + colors.Reset
-		: 'Passed: ' + stats.passed + ' of ' + stats.count
+		? `${colors.FgGreen}Passed: ${stats.passed} of ${stats.count}${colors.Reset}`
+		: `Passed: ${stats.passed} of ${stats.count}`
 
 	const failedText = stats.failed
-		? colors.FgRed + 'Failed: ' + stats.failed + colors.Reset
-		: 'Failed: ' + stats.failed
+		? `${colors.FgRed}Failed: ${stats.failed}${colors.Reset}`
+		: `Failed: ${stats.failed}`
 
-	return passedText + ', ' + failedText + ' (' + time + ' ms)'
+	const time = Date.now() - stats.start
+
+	console.log(`${passedText}, ${failedText} (${time} ms)`)
 }
 
 /**
@@ -120,7 +118,8 @@ function getStatsSummary(time) {
  *
  * @param { string } message
  */
-function log(message) {
+function log(message)
+{
 	console.log(indentation() + message)
 }
 
@@ -129,7 +128,8 @@ function log(message) {
  *
  * @param { string } message - success message
  */
-function logSuccess(message) {
+function logSuccess(message)
+{
 	console.log(indentation() + colors.FgGreen + message + colors.Reset)
 }
 
@@ -138,7 +138,8 @@ function logSuccess(message) {
  *
  * @param { string } message - error message
  */
-function logError(message) {
+function logError(message)
+{
 	console.log(indentation() + colors.FgRed + message + colors.Reset)
 }
 
@@ -147,10 +148,9 @@ function logError(message) {
  *
  * @return { string }
  */
-function indentation() {
-	return stats.level
-		? ' '.repeat(4 * stats.level)
-		: ''
+function indentation()
+{
+	return stats.level ? ' '.repeat(4 * stats.level) : ''
 }
 
 module.exports = {

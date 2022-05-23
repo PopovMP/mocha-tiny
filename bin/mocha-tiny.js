@@ -12,7 +12,8 @@ fs.stat(testDir,
  * @param { Error } err
  * @param { Stats } stats
  */
-function fs_stat_ready(err, stats) {
+function fs_stat_ready(err, stats)
+{
 	if (err) {
 		console.error(err.message)
 		return
@@ -31,7 +32,8 @@ function fs_stat_ready(err, stats) {
  * @param { Error    } err
  * @param { string[] } files
  */
-function fs_readdir_ready(err, files) {
+function fs_readdir_ready(err, files)
+{
 	if (err) {
 		console.error(err.message)
 		return
@@ -49,7 +51,8 @@ function fs_readdir_ready(err, files) {
  *
  * @param { string[] } files
  */
-function runTests(files) {
+function runTests(files)
+{
 	console.log('Found: ' + files.length + ' test files in: ' + testDir)
 
 	files.forEach((file, index) => {
@@ -64,7 +67,8 @@ function runTests(files) {
  *
  * @param { string[] } files
  */
-function runEcmaModules(files) {
+function runEcmaModules(files)
+{
 	console.log('Found: ' + files.length + ' test modules in: ' + testDir)
 
 	files.forEach((file, index) => {
