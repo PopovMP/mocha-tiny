@@ -41,8 +41,8 @@ function getNewStats()
 /**
  * Runs a group of tests
  *
- * @param { string    } message - description of the test group
- * @param { function  } content - contains a `describe` or `it` functions
+ * @param { string   } message - description of the test group
+ * @param { function } content - contains a `describe` or `it` functions
  */
 function describe(message, content)
 {
@@ -83,11 +83,11 @@ function it(message, assertion)
 
 	try {
 		assertion()
-		logSuccess('✅ ' + message)
+		logSuccess(message)
 		stats.passed++
 	}
 	catch (e) {
-		logError('❌ ' + message)
+		logError(message)
 		log(e.message)
 		log(`Actual: ${colors.FgRed + e.actual + colors.Reset}, ` +
 			`Expected: ${colors.FgGreen + e.expected + colors.Reset}`)
@@ -130,7 +130,7 @@ function log(message)
  */
 function logSuccess(message)
 {
-	console.log(indentation() + colors.FgGreen + message + colors.Reset)
+	console.log(indentation() + colors.FgGreen + '✅ ' + message + colors.Reset)
 }
 
 /**
@@ -140,7 +140,7 @@ function logSuccess(message)
  */
 function logError(message)
 {
-	console.log(indentation() + colors.FgRed + message + colors.Reset)
+	console.log(indentation() + colors.FgRed + '❌ ' + message + colors.Reset)
 }
 
 /**
