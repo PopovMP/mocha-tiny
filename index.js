@@ -130,7 +130,7 @@ function log(message)
  */
 function logSuccess(message)
 {
-	console.log(indentation() + colors.FgGreen + '✅ ' + message + colors.Reset)
+	console.log(indentation() + colors.FgGreen + 'ok - ' + message + colors.Reset)
 }
 
 /**
@@ -140,7 +140,7 @@ function logSuccess(message)
  */
 function logError(message)
 {
-	console.log(indentation() + colors.FgRed + '❌ ' + message + colors.Reset)
+	console.log(indentation() + colors.FgRed + 'not ok - ' + message + colors.Reset)
 }
 
 /**
