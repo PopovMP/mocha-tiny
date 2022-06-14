@@ -7,30 +7,30 @@ Homepage: https://github.com/popovmp/mocha-tiny
 ## Synopsis
 
 ```javascript
-const { strictEqual  } = require('assert');
-const { describe, it } = require('@popovmp/mocha-tiny');
+const {strictEqual}  = require('assert')
+const {describe, it} = require('@popovmp/mocha-tiny')
 
 function sum(m, n) {
-    return m + n;
+    return m + n
 }
 
 describe('Test math', () => {
     describe('sum(m, n)', () => {
         it('is a function', () => {
-           strictEqual(typeof sum, 'function');
-        });
+           strictEqual(typeof sum, 'function')
+        })
 
         it('accepts two args', () => {
-            strictEqual(sum.length, 2);
-        });
+            strictEqual(sum.length, 2)
+        })
 
         it('sums numbers', () => {
-            const actual   = sum(2, 3);
-            const expected = 5;
-            strictEqual(actual, expected);
-        });
-    });
-});
+            const actual   = sum(2, 3)
+            const expected = 5
+            strictEqual(actual, expected)
+        })
+    })
+})
 ```
 
 Output - all passed:
@@ -58,9 +58,9 @@ The actual tests are in the second argument of `it`.
 describe('system under test', () => {
     describe('method under test', () => {
         it('behavior', () => {
-            const actual   = getFoo();
-            const expected = 'foo';
-            assert.strictEqual(actual, expected);
+            const actual   = getFoo()
+            const expected = 'foo'
+            assert.strictEqual(actual, expected)
         });
     });
 });
@@ -74,15 +74,15 @@ describe('Test group', () => {
     // Init the test environment.
     const systemUnderTest = {
         theAnswer: 42,
-    };
+    }
 
     it('test...', () => {
-       strictEqual(systemUnderTest.theAnswer, 42);
-    });
+       strictEqual(systemUnderTest.theAnswer, 42)
+    })
 
     // Clean
     systemUnderTest.theAnswer = 0;
-});
+})
 ```
 
 **mocha-tiny** throws an error if there are failed tests.
@@ -131,4 +131,4 @@ function it(message, assertion) { }
 
 `mocha-tiny` is free for use and modification. No responsibilities for damages of any kind.
 
-Copyright (c) 2020 Miroslav Popov
+Copyright (c) 2022 Miroslav Popov
