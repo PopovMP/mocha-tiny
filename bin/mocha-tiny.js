@@ -53,12 +53,10 @@ function fs_readdir_ready(err, files)
  */
 function runTests(files)
 {
-	console.log('Found: ' + files.length + ' test files in: ' + testDir)
-
 	files.forEach((file, index) => {
 		console.log(`\n${index + 1}) Run test file: ${file}`)
 
-		require(path.join(testDir, file))
+		require( path.join(testDir, file) )
 	})
 }
 
@@ -69,8 +67,6 @@ function runTests(files)
  */
 function runEcmaModules(files)
 {
-	console.log('Found: ' + files.length + ' test modules in: ' + testDir)
-
 	files.forEach((file, index) => {
 		console.log(`\n${index + 1}) Run test module: ${file}`)
 
