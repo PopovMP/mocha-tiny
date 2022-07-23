@@ -1,6 +1,6 @@
 {
   "name"       : "@popovmp/mocha-tiny",
-  "version"    : "2.2.0",
+  "version"    : "2.3.0",
   "description": "Mocha-tiny - straightforward unit testing: `describe` and `it`",
   "main"       : "index.js",
   "author"     : "PopovMP <info@forexsb.com>",
@@ -12,7 +12,7 @@
   },
   "repository": {
     "type": "git",
-    "url" : "git+https://github.com/popovmp/mocha-tiny.git"
+    "url" : "git@github.com:PopovMP/mocha-tiny.git"
   },
   "keywords": [
     "mocha",
