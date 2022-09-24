@@ -5,15 +5,7 @@ const path = require('path')
 
 const testDir = path.join(process.cwd(), 'test')
 
-fs.stat(testDir,
-	fs_stat_ready)
-
-/**
- * @param { Error } err
- * @param { Stats } stats
- */
-function fs_stat_ready(err, stats)
-{
+fs.stat(testDir, (err, stats) => {
 	if (err) {
 		console.error(err.message)
 		return
@@ -24,52 +16,57 @@ function fs_stat_ready(err, stats)
 		return
 	}
 
-	fs.readdir(testDir,
-		fs_readdir_ready)
-}
+	fs.readdir(testDir, (err, files) => {
+			if (err) {
+				console.error(err.message)
+				return
+			}
 
-/**
- * @param { Error    } err
- * @param { string[] } files
- */
-function fs_readdir_ready(err, files)
+			runTests(testDir, files)
+
+			readSubFolders(files)
+		}
+	)
+})
+
+function readSubFolders(files)
 {
-	if (err) {
-		console.error(err.message)
-		return
+	for (const file of files) {
+		const filepath = path.join(testDir, file)
+
+		fs.stat(filepath, (err, stats) => {
+			if (err) {
+				console.error(err.message)
+				return
+			}
+
+			if (stats.isDirectory()) {
+				fs.readdir(filepath, (err, files) => {
+					if (err) {
+						console.error(err.message)
+						return
+					}
+
+					runTests(filepath, files)
+				})
+			}
+		})
 	}
-
-	// Accepted test files are: testName.test.js
-	runTests(files.filter(file => file.match(/\.test\.js$/)))
-
-	// Accepted test files are: testName.test.mjs
-	runEcmaModules(files.filter(file => file.match(/\.test\.mjs$/)))
 }
 
 /**
  * Requires all test files one by one
  *
- * @param { string[] } files
+ * @param {string  } baseDir
+ * @param {string[]} files
  */
-function runTests(files)
+function runTests(baseDir, files)
 {
-	files.forEach((file, index) => {
+	files
+		.filter(file => file.match(/\.test\.js$/))
+		.forEach((file, index) => {
 		console.log(`\n${index + 1}) Run test file: ${file}`)
-
-		require( path.join(testDir, file) )
+		require( path.join(baseDir, file) )
 	})
 }
 
-/**
- * Requires all Ecma modules test files one by one
- *
- * @param { string[] } files
- */
-function runEcmaModules(files)
-{
-	files.forEach((file, index) => {
-		console.log(`\n${index + 1}) Run test module: ${file}`)
-
-		import( path.join('file:///', testDir, file) )
-	})
-}

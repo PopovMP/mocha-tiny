@@ -89,7 +89,8 @@ describe('Test group', () => {
 
 ## Run all tests
 
-**mocha-tiny** exports a `mocha-tiny` command. It finds and runs all tests in the `./test` folder.
+**mocha-tiny** exports a `mocha-tiny` command.
+It finds and runs all tests under the `./test` folder and its sub-folders.
 
 The accepted test files format is `test-name.test.js`.
 
