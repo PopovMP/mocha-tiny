@@ -88,9 +88,9 @@ function it(message, assertion)
 	}
 	catch (e) {
 		logError(message)
-		log(e.message)
 		log(`Actual: ${colors.FgRed + e.actual + colors.Reset}, ` +
 			`Expected: ${colors.FgGreen + e.expected + colors.Reset}`)
+		log(e.stack)
 		stats.failed++
 	}
 }
